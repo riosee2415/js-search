@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>STUDENT SEARCH</title>
+  </head>
+  <body>
+    <!-- onchange : select의 값이 바뀌면 function을 실행하세요.-->
+    <select id="js-select" onchange="changeValue()"> </select>
+
+    <div id="infoArea">
+      <div id="name"></div>
+      <div id="gender"></div>
+      <div id="birth"></div>
+    </div>
+  </body>
+
+  <script>
+    // 사람의 정보를 저장해요.
+    // 이 정보는 데이터베이스 에서 온 것.!   name , gender, birth  3명
+
+    // 배열 <- 하나의 저장공간에 여러개를 저장할 수 있는 기능
+    //  객체 <- 사람 {이름, 성별, 생년월일}
+    //  객체를 여러개 저장
+
+    // 1. 객체를 저장할 저장공간을 만든다.
+
+    // 2. 객체별 정보를 넣는다.
+    // {} => 객체
+    // [] => 배열
+
+    const people = [
+      {
+        name: "ryon",
+        gender: "M",
+        birth: "071010"
+      },
+      {
+        name: "muzi",
+        gender: "F",
+        birth: "080611"
+      },
+      {
+        name: "con",
+        gender: "M",
+        birth: "090322"
+      }
+    ];
+
+    /*
+      1. people이 가지고 있는 객체 만큼 반복
+      2. 반복 할 때, 객체들이 각각에 가지고 있는 name을
+         select에다가 넣어야 해요.
+    */
+    // ES6 존재하는 문법  - allow function // ES6, ES7  // why ?  React-Native -> ES6 default
+    const valueSetting = () => {
+      // HTML에 만들어져있는 "js-select"를 가져온다.
+      const selectBox = document.getElementById("js-select"); // DOM 을 넣엇다.
+
+      // people이라는 데이터가 가지고있는 개수 만큼 반복.
+      // 하나씩 뽑아서 p에다가 넣는다.
+      people.map(p => {
+        // option 이라는 DOM을 생성
+        const option = document.createElement("option");
+
+        // 생성된 option에 p.name을 넣고,
+        option.text = p.name;
+
+        // HTML에서 가져온 DOM에다가 append.
+        selectBox.appendChild(option);
+      });
+    };
+
+    // 값이 바뀌면 실행하는 함수
+    const changeValue = () => {
+      // console.log("값이 바뀌어썽요 !");
+
+      // 1. 바뀐 값이(선택한 값), people에 있는 객체 중에서 누구랑 똑같은가 ?
+
+      // js-select라는 HTML을 selectBox에 저장한다.
+      const selectBox = document.getElementById("js-select");
+
+      // 저장된 selectBox의 현재 값을 currentValue에 저장한다.
+      const currentValue = selectBox.options[selectBox.selectedIndex].value;
+
+      // 2. 똑같으면, 그 객체가 가지고있는 데이터를 html에 innerTEXT해주세요 .
+      people.map(p => {
+        if (p.name === currentValue) {
+          console.log(p.name);
+          console.log(p.gender);
+          console.log(p.birth);
+
+          const name = document.getElementById("name");
+          const gender = document.getElementById("gender");
+          const birth = document.getElementById("birth");
+
+          // p.xxxx를   가져온 HTML에 넣어야 해요 .
+          name.innerText = p.name;
+          gender.innerText = p.gender;
+          birth.innerText = p.birth;
+        }
+      });
+    };
+
+    // 자바스크립트는 -> 실행하라고 명령을 줘야 실행해요.
+    // init 은,  페이지가 로드 된 후에 실행하세요.
+    function init() {
+      valueSetting();
+    }
+
+    init();
+  </script>
+</html>
